@@ -42,7 +42,6 @@ onEvent("sprayPaint", "click", function() {
   }
   setStrokeColor("rgba(0, 0, 0, 0)");
   setFillColor("rgba(0, 0, 0, 0.2)");
-
 });
 
 onEvent("etch", "click", function(event) {
