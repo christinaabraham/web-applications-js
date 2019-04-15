@@ -4,8 +4,10 @@
 
 var alpha = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
 var alphabet = "abcdefghijklmnopqrstuvwxyz ";
+
 var inputCaesarEnc = "";
 var inputCaesarDec = "";
+
 var shiftsCaesarEnc = 0;
 
 //console.log(vigenereEncrypt("testing one two three"));
@@ -117,6 +119,7 @@ onEvent("label5", "click", function(event) {
 });
 
 function vigenereEncrypt(text){
+  var outputArr = [];
   var index = 0;
   var count = 0;
   var check = "";
@@ -124,7 +127,6 @@ function vigenereEncrypt(text){
   var old = "";
   var anew = "";
   var verify = "";
-  var outputArr = [];
 
   for(var j = 0; j < text.length; j++) {
     appendItem(outputArr, text.substring(j, j+1).toLowerCase());
@@ -165,36 +167,4 @@ function vigenereEncrypt(text){
   
   //console.log(text);
   return output;
-}
-
-decryptVigenere("Testing");
-
-function decryptVigenere(text) {
-  var old = "";
-  var count = 0;
-  var library = [];
-  var frequency = [];
-  var check = "";
-  
-  for(var a = 0; a < text.length; a++) {
-    if(check.includes(text.substring(a, a+1))) {
-      a++;
-    }
-    appendItem(library, text.substring(a, a+1));
-    check += text.substring(a, a+1);
-  }
-  
-  for(var i = 0; i < text.length; i++) {
-    old = text.substring(i, i+1);
-  
-    for(var j = 0; j < text.length; j++) {
-      if(text.substring(j, j+1) == old) {
-        count++;
-      } 
-    }
-  }
-  
-  console.log(library);
-  console.log(frequency);
-  console.log("Check: " + check);
 }
