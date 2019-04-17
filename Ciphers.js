@@ -42,11 +42,7 @@ function updateCaesar() {
 }
 
 // Caesar Cipher Encryption - Events
-onEvent("switch", "click", function() {
-  setScreen("main_menu");
-});
-
-onEvent("goback", "click", function() {
+onEvent("return_caesar", "click", function() {
   setScreen("main_menu");
 });
 
@@ -76,9 +72,14 @@ onEvent("num_shifts_input", "change", function(event) {
   updateCaesar();
 });
 
-onEvent("caesar_enc_btn", "click", function() {
-  encryptCaesar(inputCaesarEnc, shiftsCaesarEnc);
-});
+onEvent("button6", "click", function(event) {
+  // setScreen()
+})
+
+onEvent("cc", "click", function(event) {
+  // setScreen()
+})
+
 
 // Caesar Cipher Decryption - Functions
 function decryptCaesar(text) {
