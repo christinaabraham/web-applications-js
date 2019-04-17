@@ -7,6 +7,7 @@ var alphabet = "abcdefghijklmnopqrstuvwxyz ";
 var inputCaesarEnc = "";
 var inputCaesarDec = "";
 var shiftsCaesarEnc = 0;
+var inputVigenereEnc = "";
 
 function chooseTool() {
   
@@ -73,11 +74,20 @@ onEvent("num_shifts_input", "change", function(event) {
 });
 
 onEvent("button6", "click", function(event) {
-  // setScreen()
+  setScreen("screen2");
 })
 
-onEvent("cc", "click", function(event) {
-  // setScreen()
+onEvent("label3", "click", function(event) {
+  setScreen("screen2");
+  // setPosition("label3", 50, 50);
+})
+
+onEvent("button15", "click", function(event) {
+  setScreen("caesar_enc_screen");
+})
+
+onEvent("button16", "click", function(event) {
+  setScreen("caesar_dec_screen");
 })
 
 
@@ -116,7 +126,7 @@ function decryptCaesar(text) {
   }
   //setText("caesar_enc_text_area", cipher);
   //setScreen("caesar_enc_result_screen");
-  setText("text_area1", output);
+  setText("text_area2", output);
   setScreen("screen2");
   console.log(output);
 }
@@ -128,6 +138,9 @@ onEvent("button1", "click", function () {
 
 
 // Vigenere Cipher Encryption - Functions
+function updateVigenere() {
+  encryptVigenere(inputVigenereEnc);
+}
 function vigenereEncrypt(text){
   var outputArr = [];
   var index = 0;
@@ -180,3 +193,10 @@ function vigenereEncrypt(text){
 }
 
 // Vignere Cipher Encryption - Events
+onEvent("label9", "click", function(event) {
+  setScreen("vigenere_enc_screen");
+});
+
+onEvent("button8", "click", function(event) {
+  setScreen("vigenere_enc_screen");
+});
