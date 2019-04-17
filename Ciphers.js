@@ -40,6 +40,8 @@ function encryptCaesar(text, shifts) {
 
 function updateCaesar() {
   encryptCaesar(inputCaesarEnc, shiftsCaesarEnc);
+  
+  decryptCaesar(inputCaesarDec);
 }
 
 // Caesar Cipher Encryption - Events
@@ -52,7 +54,7 @@ onEvent("refresh", "click", function() {
 });
 
 onEvent("enter_txt_input", "change", function(event) {
- inputCaesarEnc = getText("enter_txt_input") 
+ inputCaesarEnc = getText("enter_txt_input"); 
  console.log("Caesar enc input: " + inputCaesarEnc);
  updateCaesar();
 });
@@ -126,8 +128,8 @@ function decryptCaesar(text) {
   }
   //setText("caesar_enc_text_area", cipher);
   //setScreen("caesar_enc_result_screen");
-  setText("text_area2", output);
-  setScreen("screen2");
+  setText("caesar_dec_area", output);
+  // setScreen("screen2");
   console.log(output);
 }
 
@@ -136,7 +138,12 @@ onEvent("button1", "click", function () {
   decryptCaesar(inputCaesarDec);
 });
 
+onEvent("text_input6", "change", function(event) {
+    inputCasesarDec = getText("text_input6");
 
+  updateCaesar();
+  
+})
 // Vigenere Cipher Encryption - Functions
 function updateVigenere() {
   encryptVigenere(inputVigenereEnc);
