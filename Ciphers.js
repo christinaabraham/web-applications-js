@@ -9,10 +9,26 @@ var inputCaesarDec = "";
 var shiftsCaesarEnc = 0;
 var inputVigenereEnc = "";
 
-function chooseTool() {
+function clearScreen() {
+  inputCaesarEnc = "";
+  setText("enter_txt_input", "");
   
-}
+  inputCaesarDec = "";
+  setText("text_input6", "");
+  setText("caesar_dec_area", "");
 
+  
+  shiftsCaesarEnc = 0;
+  setText("num_shifts_input", "");
+  
+  inputVigenereEnc = "";
+  setText("text_input2", "");
+
+  updateCaesar();
+  updateVigenere();
+  
+  setText("caesar_dec_area", "");
+}
 
 // Caesar Cipher Encryption - Functions
 function encryptCaesar(text, shifts) {
@@ -46,6 +62,7 @@ function updateCaesar() {
 // Caesar Cipher Encryption - Events
 onEvent("return_caesar", "click", function() {
   setScreen("caesar_menu");
+  clearScreen();
 });
 
 onEvent("refresh", "click", function() {
@@ -54,7 +71,7 @@ onEvent("refresh", "click", function() {
 
 onEvent("enter_txt_input", "change", function(event) {
  inputCaesarEnc = getText("enter_txt_input"); 
- console.log("Caesar enc input: " + inputCaesarEnc);
+ // console.log("Caesar enc input: " + inputCaesarEnc);
  updateCaesar();
 });
 
@@ -70,25 +87,33 @@ onEvent("num_shifts_input", "change", function(event) {
 
 onEvent("button6", "click", function(event) {
   setScreen("caesar_menu");
+  clearScreen();
 })
 
 onEvent("label3", "click", function(event) {
   setScreen("caesar_menu");
+  clearScreen();
   // setPosition("label3", 50, 50);
 })
 
-onEvent("button15", "click", function(event) {
+onEvent("button23", "click", function(event) {
   setScreen("caesar_enc_screen");
+  clearScreen();
 })
 
-onEvent("button16", "click", function(event) {
+onEvent("button25", "click", function(event) {
   setScreen("caesar_dec_screen");
+  clearScreen();
 })
 
+onEvent("button29", "click", function(event) {
+  setScreen("main_menu");
+  clearScreen();
+});
 
 // Caesar Cipher Decryption - Functions
 function decryptCaesar(text) {
-  console.log(text);
+  // console.log(text);
   var shifts, location, index = 0;
   var input = text;
   var output = "";
@@ -123,7 +148,7 @@ function decryptCaesar(text) {
   //setScreen("caesar_enc_result_screen");
   setText("caesar_dec_area", output);
   // setScreen("screen2");
-  console.log(output);
+  // console.log(output);
 }
 
 // Caesar Cipher Decryption - Events
@@ -139,11 +164,10 @@ onEvent("button21", "click", function(event) {
 
 // Vigenere Cipher Encryption - Functions
 function updateVigenere() {
-  inputVigenereEnc = getText("text_input2"); 
-  updateVigenere();
-  vigenereEncrypt(inputVigenereEnc);
+  encryptVigenere(inputVigenereEnc);
 }
-function vigenereEncrypt(text){
+
+function encryptVigenere(text){
   var outputArr = [];
   var index = 0;
   var count = 0;
@@ -154,32 +178,39 @@ function vigenereEncrypt(text){
   var verify = "";
 
   for(var j = 0; j < text.length; j++) {
-    appendItem(outputArr, text.substring(j, j+1).toLowerCase());
+    if(text.substring(j, j+1) == " ") {
+      appendItem(outputArr, " ");
+      j++;
+    } 
+      appendItem(outputArr, text.substring(j, j+1).toLowerCase());
   }
 
   for(var i = 0; i < text.length; i++) {
-    index = randomNumber(0, 25 - count);
-    
-    while(check.includes(alpha[index])){ //
+    if(text.substring(i, i+1) != " ") {
       index = randomNumber(0, 25 - count);
+    
+      while(check.includes(alpha[index])){ //
+        index = randomNumber(0, 25 - count);
+      }
+      
+      anew = alpha[index];
+      console.log("Alpha length: " + alpha.length);
+      console.log("Index: " + index);
+  
+      old = text.substring(i, i+1);
+      check += anew;
+      //console.log(check);
+  
+      for(var k = 0; k < text.length; k++) {
+        if(outputArr[k] == old && !verify.includes(k)) {
+          outputArr[k] = anew;
+          verify += k + "_";
+        }
+      }
+      removeItem(alpha, index);
+      count++;
     }
     
-    anew = alpha[index];
-    console.log("Alpha length: " + alpha.length);
-    console.log("Index: " + index);
-
-    old = text.substring(i, i+1);
-    check += anew;
-    //console.log(check);
-
-    for(var k = 0; k < text.length; k++) {
-      if(outputArr[k] == old && !verify.includes(k)) {
-        outputArr[k] = anew;
-        verify += k + "_";
-      }
-    }
-    removeItem(alpha, index);
-    count++;
   }
   
   //console.log(alpha);
@@ -197,6 +228,7 @@ function vigenereEncrypt(text){
 
 // Vignere Cipher Encryption - Events
 onEvent("text_input2", "change", function(event) {
+  inputVigenereEnc = getText("text_input2"); 
   updateVigenere();
 })
 onEvent("label9", "click", function(event) {
