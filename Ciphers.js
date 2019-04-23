@@ -1,7 +1,4 @@
-//var text = returnText("enter_txt_input");
-//var shifts = returnShifts();
-//var cipher = completeCipher(text, shifts);
-
+// Global variables
 var alpha = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
 var alphabet = "abcdefghijklmnopqrstuvwxyz ";
 var inputCaesarEnc = "";
@@ -9,15 +6,14 @@ var inputCaesarDec = "";
 var shiftsCaesarEnc = 0;
 var inputVigenereEnc = "";
 
+// Resets screen elements
 function clearScreen() {
   inputCaesarEnc = "";
   setText("enter_txt_input", "");
   
   inputCaesarDec = "";
   setText("text_input6", "");
-  setText("caesar_dec_area", "");
 
-  
   shiftsCaesarEnc = 0;
   setText("num_shifts_input", "");
   
@@ -26,9 +22,9 @@ function clearScreen() {
 
   updateCaesar();
   updateVigenere();
-  
   setText("caesar_dec_area", "");
 }
+
 
 // Caesar Cipher Encryption - Functions
 function encryptCaesar(text, shifts) {
@@ -51,13 +47,14 @@ function encryptCaesar(text, shifts) {
     }  
   }
   setText("caesar_enc_text_area", cipher);
-  //setScreen("caesar_enc_result_screen");
 } 
 
+// Updates & refreshes text areas
 function updateCaesar() {
   encryptCaesar(inputCaesarEnc, shiftsCaesarEnc);
   decryptCaesar(inputCaesarDec);
 }
+
 
 // Caesar Cipher Encryption - Events
 onEvent("return_caesar", "click", function() {
@@ -71,7 +68,6 @@ onEvent("refresh", "click", function() {
 
 onEvent("enter_txt_input", "change", function(event) {
  inputCaesarEnc = getText("enter_txt_input"); 
- // console.log("Caesar enc input: " + inputCaesarEnc);
  updateCaesar();
 });
 
@@ -81,30 +77,28 @@ onEvent("num_shifts_input", "change", function(event) {
     temp = temp % 26;
   }
   shiftsCaesarEnc = temp;
-  console.log("Caesar enc shifts: " + shiftsCaesarEnc);
   updateCaesar();
 });
 
 onEvent("button6", "click", function(event) {
   setScreen("caesar_menu");
   clearScreen();
-})
+});
 
 onEvent("label3", "click", function(event) {
   setScreen("caesar_menu");
   clearScreen();
-  // setPosition("label3", 50, 50);
-})
+});
 
 onEvent("button23", "click", function(event) {
   setScreen("caesar_enc_screen");
   clearScreen();
-})
+});
 
 onEvent("button25", "click", function(event) {
   setScreen("caesar_dec_screen");
   clearScreen();
-})
+});
 
 onEvent("button29", "click", function(event) {
   setScreen("main_menu");
@@ -113,7 +107,6 @@ onEvent("button29", "click", function(event) {
 
 // Caesar Cipher Decryption - Functions
 function decryptCaesar(text) {
-  // console.log(text);
   var shifts, location, index = 0;
   var input = text;
   var output = "";
@@ -121,46 +114,46 @@ function decryptCaesar(text) {
   for(var j = 0; j < 26; j++) {
     shifts = j;
     
+    // Organizes output numerically
     if(shifts < 9) {
         output += " " + (shifts + 1) + ". ";
     } else {
         output += (shifts + 1) + ". ";
     }
-
+    
     for(var i = 0; i < input.length; i++) {
-        if(input.substring(i, i+1) == " ") {
-            output += " ";
-            i++;
-        }
+      // Skips spaces
+      if(input.substring(i, i+1) == " ") {
+          output += " ";
+          i++;
+      }
         
-        index = alphabet.indexOf(input.toLowerCase().substring(i, i+1));
-        location = index + shifts;
+      // Shifts alphabet
+      index = alphabet.indexOf(input.toLowerCase().substring(i, i+1));
+      location = index + shifts;
 
-        if(location > 25) {
-            output += alphabet.substring(location - 26, location - 25);
-        } else {
-            output += alphabet.substring(location, location + 1);
-        }
+      if(location > 25) {
+          output += alphabet.substring(location - 26, location - 25);
+      } else {
+          output += alphabet.substring(location, location + 1);
+      }
     }
     output += "\n";
   }
-  //setText("caesar_enc_text_area", cipher);
-  //setScreen("caesar_enc_result_screen");
   setText("caesar_dec_area", output);
-  // setScreen("screen2");
-  // console.log(output);
 }
+
 
 // Caesar Cipher Decryption - Events
 onEvent("text_input6", "change", function(event) {
  inputCaesarDec = getText("text_input6") 
- //console.log("Caesar dec input: " + inputCaesarDec);
  updateCaesar();
 });
 
 onEvent("button21", "click", function(event) {
   setScreen("caesar_menu");
 });
+
 
 // Vigenere Cipher Encryption - Functions
 function updateVigenere() {
@@ -178,10 +171,12 @@ function encryptVigenere(text){
   var verify = "";
 
   for(var j = 0; j < text.length; j++) {
+    // Skipes spaces
     if(text.substring(j, j+1) == " ") {
       appendItem(outputArr, " ");
       j++;
     } 
+    // Begins creating array
       appendItem(outputArr, text.substring(j, j+1).toLowerCase());
   }
 
@@ -210,7 +205,6 @@ function encryptVigenere(text){
       removeItem(alpha, index);
       count++;
     }
-    
   }
   
   //console.log(alpha);
@@ -226,11 +220,13 @@ function encryptVigenere(text){
   return output;
 }
 
+
 // Vignere Cipher Encryption - Events
 onEvent("text_input2", "change", function(event) {
   inputVigenereEnc = getText("text_input2"); 
   updateVigenere();
-})
+});
+
 onEvent("label9", "click", function(event) {
   setScreen("vigenere_enc_screen");
 });
