@@ -40,13 +40,12 @@ function encryptCaesar(text, shifts) {
 
 function updateCaesar() {
   encryptCaesar(inputCaesarEnc, shiftsCaesarEnc);
-  
   decryptCaesar(inputCaesarDec);
 }
 
 // Caesar Cipher Encryption - Events
 onEvent("return_caesar", "click", function() {
-  setScreen("main_menu");
+  setScreen("caesar_menu");
 });
 
 onEvent("refresh", "click", function() {
@@ -56,12 +55,6 @@ onEvent("refresh", "click", function() {
 onEvent("enter_txt_input", "change", function(event) {
  inputCaesarEnc = getText("enter_txt_input"); 
  console.log("Caesar enc input: " + inputCaesarEnc);
- updateCaesar();
-});
-
-onEvent("text_input1", "change", function(event) {
- inputCaesarDec = getText("text_input1") 
- console.log("Caesar dec input: " + inputCaesarDec);
  updateCaesar();
 });
 
@@ -76,11 +69,11 @@ onEvent("num_shifts_input", "change", function(event) {
 });
 
 onEvent("button6", "click", function(event) {
-  setScreen("screen2");
+  setScreen("caesar_menu");
 })
 
 onEvent("label3", "click", function(event) {
-  setScreen("screen2");
+  setScreen("caesar_menu");
   // setPosition("label3", 50, 50);
 })
 
@@ -134,19 +127,21 @@ function decryptCaesar(text) {
 }
 
 // Caesar Cipher Decryption - Events
-onEvent("button1", "click", function () {
-  decryptCaesar(inputCaesarDec);
+onEvent("text_input6", "change", function(event) {
+ inputCaesarDec = getText("text_input6") 
+ //console.log("Caesar dec input: " + inputCaesarDec);
+ updateCaesar();
 });
 
-onEvent("text_input6", "change", function(event) {
-    inputCasesarDec = getText("text_input6");
+onEvent("button21", "click", function(event) {
+  setScreen("caesar_menu");
+});
 
-  updateCaesar();
-  
-})
 // Vigenere Cipher Encryption - Functions
 function updateVigenere() {
-  encryptVigenere(inputVigenereEnc);
+  inputVigenereEnc = getText("text_input2"); 
+  updateVigenere();
+  vigenereEncrypt(inputVigenereEnc);
 }
 function vigenereEncrypt(text){
   var outputArr = [];
@@ -195,15 +190,23 @@ function vigenereEncrypt(text){
     output += outputArr[a];
   }
   
-  //console.log(text);
+  console.log(output);
+  setText("text_area2", output);
   return output;
 }
 
 // Vignere Cipher Encryption - Events
+onEvent("text_input2", "change", function(event) {
+  updateVigenere();
+})
 onEvent("label9", "click", function(event) {
   setScreen("vigenere_enc_screen");
 });
 
 onEvent("button8", "click", function(event) {
   setScreen("vigenere_enc_screen");
+});
+
+onEvent("button14", "click", function(event) {
+  setScreen("main_menu");
 });
