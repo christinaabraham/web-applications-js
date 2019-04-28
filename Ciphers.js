@@ -1,10 +1,20 @@
 // Global variables
+var baconian = ["00000", "00001", "00010", "00011", "00100", "00101", 
+                "00110", "00111", "01000", "01001", "01010", "01011", 
+                "01100", "01101", "01110", "01111", "10000", "10001", 
+                "10010", "10011", "10100", "10101", "10110", "10111"];
 var alpha = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
 var alphabet = "abcdefghijklmnopqrstuvwxyz ";
 var inputCaesarEnc = "";
 var inputCaesarDec = "";
 var shiftsCaesarEnc = 0;
 var inputVigenereEnc = "";
+var inputBaconianEnc = "";
+var inputBaconianDec = "";
+console.log("Reset");
+
+decryptBaconian("00001 00000");
+
 
 // Resets screen elements
 function clearScreen() {
@@ -19,9 +29,14 @@ function clearScreen() {
   
   inputVigenereEnc = "";
   setText("text_input2", "");
+  
+  inputBaconianEnc = "";
+  setText("text_input1", "");
 
   updateCaesar();
   updateVigenere();
+  updateBaconian();
+  
   setText("caesar_dec_area", "");
 }
 
@@ -72,7 +87,7 @@ onEvent("enter_txt_input", "change", function(event) {
 });
 
 onEvent("num_shifts_input", "change", function(event) {
-  temp = getNumber("num_shifts_input");
+  var temp = getNumber("num_shifts_input");
   if(temp > 26) {
     temp = temp % 26;
   }
@@ -163,7 +178,7 @@ function updateVigenere() {
 function encryptVigenere(text){
   var outputArr = [];
   var index = 0;
-  var count = 0;
+  var runs = 0;
   var check = "";
   var output = "";
   var old = "";
@@ -182,10 +197,10 @@ function encryptVigenere(text){
 
   for(var i = 0; i < text.length; i++) {
     if(text.substring(i, i+1) != " ") {
-      index = randomNumber(0, 25 - count);
+      index = randomNumber(0, 25 - runs);
     
       while(check.includes(alpha[index])){ //
-        index = randomNumber(0, 25 - count);
+        index = randomNumber(0, 25 - runs);
       }
       
       anew = alpha[index];
@@ -203,7 +218,7 @@ function encryptVigenere(text){
         }
       }
       removeItem(alpha, index);
-      count++;
+      runs++;
     }
   }
   
@@ -238,3 +253,109 @@ onEvent("button8", "click", function(event) {
 onEvent("button14", "click", function(event) {
   setScreen("main_menu");
 });
+
+
+// Baconian Cipher Encryption - Functions
+function encryptBaconian(text) {
+  var index = 0;
+  var runs = 0;
+  var outputArr = [];
+  var output = "";
+
+  //var index0 = randomNumber(0, 25);
+  //var index1 = randomNumber(0, 25);
+  // console.log("Function running");
+  //while(index0 == index1) {
+    //index1 = randomNumber(0, 25);
+  //}
+  
+  for(var i = 0; i < text.length; i++) {
+    if(text.substring(i, i+1) != " ") {
+      //index = randomNumber(0, 25 - runs);
+      index = alphabet.indexOf(text.substring(i, i+1));
+      appendItem(outputArr, baconian[index]);
+    } else {
+      appendItem(outputArr, " ");
+    }
+  }
+  
+  for(var j = 0; j < outputArr.length; j++) {
+    output += outputArr[j];
+  }
+  setText("text_area1", output);
+}
+
+function updateBaconian() {
+  encryptBaconian(inputBaconianEnc);
+  decryptBaconian(inputBaconianDec);
+}
+
+
+// Baconian Cipher Encryption - Events
+onEvent("text_input1", "change", function(event) {
+  inputBaconianEnc = getText("text_input1"); 
+  updateBaconian();
+});
+
+onEvent("label2", "click", function(event) {
+  setScreen("baconian_enc_screen");
+});
+
+onEvent("button1", "click", function(event) {
+  setScreen("baconian_enc_screen");
+});
+
+onEvent("button33", "click", function(event) {
+  setScreen("main_menu");
+});
+
+
+// Baconian Cipher Decryption - Functions
+function decryptBaconian (text) {
+  var outputArr = [];
+  
+  for(var i = 0; i < text.length; i += 6) {
+    var str = text.substring(i, i+5);
+    //var found = false;
+    var index = 0;
+    var found = false;
+    
+    for(var k = 0; k < baconian.length; k++) {
+      if(str == baconian[k]) {
+        appendItem(outputArr, alpha[k]);
+        break;
+      }
+    }
+    
+    
+        console.log(outputArr);
+    }
+  console.log("Reached end");
+  console.log(outputArr);
+}
+
+function decryptBaconianV2 (text) {
+  var outputArr = [];
+  
+  for(var i = 0; i < text.length; i++) {
+    var start = i;
+    var length = 0;
+    if(text.substring(i, i+1) != " ") {
+      length++;
+    } else {
+      for(var j = i; j < text.length; j++) {
+        var bin = text.substring(start, length + 1);
+        for(var k = 0; k < baconian.length; k++) {
+          if(bin == baconian[k]) {
+            var index = k;
+            console.log(index);
+            console.log(bin);
+            appendItem(outputArr, alpha[index]);
+            break;
+          }
+        }
+      }
+    }
+  }
+  console.log(outputArr);
+}
