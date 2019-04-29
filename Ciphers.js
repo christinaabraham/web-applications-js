@@ -207,15 +207,10 @@ function encryptVigenere(text){
       while(check.includes(alpha[index])){ //
         index = randomNumber(0, 25 - runs);
       }
-      
       anew = alpha[index];
-      console.log("Alpha length: " + alpha.length);
-      console.log("Index: " + index);
-  
       old = text.substring(i, i+1);
       check += anew;
-      //console.log(check);
-  
+    
       for(var k = 0; k < text.length; k++) {
         if(outputArr[k] == old && !verify.includes(k)) {
           outputArr[k] = anew;
@@ -226,16 +221,10 @@ function encryptVigenere(text){
       runs++;
     }
   }
-  
-  //console.log(alpha);
-  //console.log(outputArr);
-  //console.log("Check: " + check);
-  
+
   for(var a = 0; a < text.length; a++) {
     output += outputArr[a];
   }
-  
-  console.log(output);
   setText("text_area2", output);
   return output;
 }
@@ -349,7 +338,6 @@ function decryptBaconian(text) {
       for(var k = 0; k < baconian.length; k++) {
         if(str == baconian[k]) {
           appendItem(outputArr, alpha[k]);
-          console.log(outputArr);
           break;
         }
       }
